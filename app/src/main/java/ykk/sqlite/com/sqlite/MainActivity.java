@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private Button d_button;
     private Button q_button;
     private EditText editText;
+    private Button tran_button;
     private MyDatabaseHelper db;
     private Handler handler;
     private  Button clear_button;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         q_button = (Button) findViewById(R.id.query_Id);
         editText = (EditText) findViewById(R.id.editText_Id);
         clear_button= (Button) findViewById(R.id.clear_button);
+        tran_button= (Button) findViewById(R.id.tran_Id);
         db = new MyDatabaseHelper(this, "BookStore.db", null, 1);
         c_button.setOnClickListener(new CreateListener());
         a_button.setOnClickListener(new AddListener());
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         d_button.setOnClickListener(new DeleteListener());
         q_button.setOnClickListener(new QueryListener());
         clear_button.setOnClickListener(new ClearListener());
+        tran_button.setOnClickListener(new TransactionListener());
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -49,13 +52,41 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    //使用数据库处理一些事物,删除旧的数据与添加新的数据同时进行。
+    class TransactionListener implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            SQLiteDatabase database=db.getWritableDatabase();
+            database.beginTransaction();
+            try {
+                     database.delete("Book",null,null);
+                if(true)
+                {
+                    throw new NullPointerException();
+                }
+                ContentValues values=new ContentValues();
+                values.put("name","yan kai kai");
+                values.put("author","tian wei");
+                values.put("pages",300);
+                values.put("price",20.85);
+                database.insert("Book",null,values);
+                database.setTransactionSuccessful();
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }finally {
+                database.endTransaction();//结束事务
+            }
+            Toast.makeText(MainActivity.this,"you click Transaction",Toast.LENGTH_SHORT).show();
+        }
+
+    }
     class ClearListener implements View.OnClickListener
     {
         @Override
         public void onClick(View v) {
             editText.setText(" ");
-
-
         }
     }
         //创建数据库监听器
