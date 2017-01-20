@@ -60,11 +60,7 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase database=db.getWritableDatabase();
             database.beginTransaction();
             try {
-                     database.delete("Book",null,null);
-                if(true)
-                {
-                    throw new NullPointerException();
-                }
+                database.delete("Book",null,null);
                 ContentValues values=new ContentValues();
                 values.put("name","yan kai kai");
                 values.put("author","tian wei");
@@ -132,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SQLiteDatabase database = db.getWritableDatabase();
-                database.delete("Book", "pages>?", new String[]{"400"});
+                database.delete("Book", "pages>?", new String[]{"200"});
             }
         }
         //查询数据库中的数据
