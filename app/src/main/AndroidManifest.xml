@@ -15,6 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="ykk.sqlite.com.sqlite.provider"
+            android:name="ykk.sqlite.com.sqlite.DatabaseProvider"
+            android:exported="true">
+        </provider>
     </application>
 
 </manifest>
